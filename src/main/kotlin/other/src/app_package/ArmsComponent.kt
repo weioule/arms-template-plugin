@@ -118,6 +118,14 @@ ${
     """
     } else ""
 }
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        ${provider.pageName.value}Component.Builder view(${provider.pageName.value}Contract.View view);
+        ${provider.pageName.value}Component.Builder appComponent(AppComponent appComponent);
+        ${provider.pageName.value}Component build();
+    }
 }
     
 """

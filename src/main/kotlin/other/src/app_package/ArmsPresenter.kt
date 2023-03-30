@@ -46,6 +46,7 @@ BasePresenter<${provider.pageName.value}Contract.Model, ${provider.pageName.valu
     lateinit var mImageLoader: ImageLoader
     @Inject
     lateinit var mAppManager: AppManager
+    
     override fun onDestroy() {
           super.onDestroy()
     }

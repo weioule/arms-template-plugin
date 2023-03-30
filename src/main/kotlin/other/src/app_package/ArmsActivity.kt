@@ -7,19 +7,21 @@ fun armsActivity(isKt: Boolean, provider: ArmsPluginTemplateProviderImpl) = if (
 
 private fun armsActivityKt(provider: ArmsPluginTemplateProviderImpl) = """
 package ${provider.activityPackageName.value}
-import android.app.Activity
+
 import android.os.Bundle
+import android.view.View
 import com.jess.arms.di.component.AppComponent
-import cn.skytech.iglobalwin.app.base.SimpleBaseActivity
+import ${provider.appPackageName.value}.base.BaseTitleActivity
 import ${provider.componentPackageName.value}.Dagger${provider.pageName.value}Component
 import ${provider.moudlePackageName.value}.${provider.pageName.value}Module
 import ${provider.contractPackageName.value}.${provider.pageName.value}Contract
 import ${provider.presenterPackageName.value}.${provider.pageName.value}Presenter
 import ${provider.appPackageName.value}.R
-import kotlinx.android.synthetic.main.base_title.*
+import kotlinx.android.synthetic.main.${provider.activityLayoutName.value}.*
 
 ${commonAnnotation(provider)}
-class ${provider.pageName.value}Activity : SimpleBaseActivity<${provider.pageName.value}Presenter>() , ${provider.pageName.value}Contract.View {
+class ${provider.pageName.value}Activity : BaseTitleActivity<${provider.pageName.value}Presenter>() , ${provider.pageName.value}Contract.View {
+
     override fun setupActivityComponent(appComponent: AppComponent) {
         Dagger${provider.pageName.value}Component //如找不到该类,请编译一下项目
                 .builder()
@@ -28,40 +30,64 @@ class ${provider.pageName.value}Activity : SimpleBaseActivity<${provider.pageNam
                 .build()
                 .inject(this)
     }
-    override fun initView(savedInstanceState: Bundle?): Int {
-        return R.layout.${provider.activityLayoutName.value} //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
+    
+    override fun getLayoutId(): Int {
+       return R.layout.${provider.activityLayoutName.value}
     }
     
-    override fun initData(savedInstanceState: Bundle?) {
-        setToolBar(toolbar, "${provider.pageName.value}")
-        
-        initListener()
-    }
-    private fun initListener() {
-    
+    override fun initTitle(savedInstanceState: Bundle?) {
+     
     }
     
-    override fun getActivity(): Activity = this
+    override fun doNext(savedInstanceState: Bundle?) {
+
+    }
+    
+    override fun onBarcode(barcode: String, isScan: Boolean) {
+
+    }
+    
+    override fun onClick(v: View?) {
+        super.onClick(v)
+        when (v?.id) {
+            R.id.x ->
+                
+        }
+    }
 }
     
 """
 
 private fun armsActivityJava(provider: ArmsPluginTemplateProviderImpl) = """
 package ${provider.activityPackageName.value};
-import android.app.Activity
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.os.Bundle;
+import android.view.View;
 import com.jess.arms.di.component.AppComponent;
-import cn.skytech.iglobalwin.app.base.SimpleBaseActivity;
+import ${provider.appPackageName.value}.base.BaseTitleActivity;
 import ${provider.componentPackageName.value}.Dagger${provider.pageName.value}Component;
 import ${provider.moudlePackageName.value}.${provider.pageName.value}Module;
 import ${provider.contractPackageName.value}.${provider.pageName.value}Contract;
 import ${provider.presenterPackageName.value}.${provider.pageName.value}Presenter;
 import ${provider.appPackageName.value}.R;
 
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
 ${commonAnnotation(provider)}
-public class ${provider.pageName.value}Activity extends SimpleBaseActivity<${provider.pageName.value}Presenter> implements ${provider.pageName.value}Contract.View {
+public class ${provider.pageName.value}Activity extends BaseTitleActivity<${provider.pageName.value}Presenter> implements ${provider.pageName.value}Contract.View {
+
+    @BindView(R.id.xx)
+    TextView x;
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
         Dagger${provider.pageName.value}Component //如找不到该类,请编译一下项目
@@ -73,24 +99,34 @@ public class ${provider.pageName.value}Activity extends SimpleBaseActivity<${pro
     }
     
     @Override
-    public int initView(@Nullable Bundle savedInstanceState){
-        return R.layout.${provider.activityLayoutName.value}; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
+    public int getLayoutId() {
+        return R.layout.${provider.activityLayoutName.value};
+    }
+
+    @Override
+    public void initTitle(@Nullable Bundle savedInstanceState) {
+
+    } 
+    
+    @Override
+    public void doNext(@Nullable Bundle savedInstanceState) {
+
     }
     
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
-        //setToolBar(toolbar, "${provider.pageName.value}");
-        
-        initListener();
+    protected void onBarcode(@NonNull String barcode, boolean isScan) {
+
     }
-    
-    public void initListener() {
-    
+
+    @OnClick({R.id.xx})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.xx:
+
+                break;
+        }
     }
-    
-    public Activity getActivity(){
-        return this;
-    }
+
 }
     
 """
