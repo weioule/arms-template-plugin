@@ -12,15 +12,15 @@ import android.os.Bundle
 import android.view.View
 import com.jess.arms.di.component.AppComponent
 import ${provider.appPackageName.value}.base.BaseTitleActivity
+import ${provider.appPackageName.value}.databinding.Activity${provider.pageName.value}Binding
 import ${provider.componentPackageName.value}.Dagger${provider.pageName.value}Component
 import ${provider.moudlePackageName.value}.${provider.pageName.value}Module
 import ${provider.contractPackageName.value}.${provider.pageName.value}Contract
 import ${provider.presenterPackageName.value}.${provider.pageName.value}Presenter
 import ${provider.appPackageName.value}.R
-import kotlinx.android.synthetic.main.${provider.activityLayoutName.value}.*
 
 ${commonAnnotation(provider)}
-class ${provider.pageName.value}Activity : BaseTitleActivity<${provider.pageName.value}Presenter>() , ${provider.pageName.value}Contract.View {
+class ${provider.pageName.value}Activity : BaseTitleActivity<Activity${provider.pageName.value}Binding, ${provider.pageName.value}Presenter>() , ${provider.pageName.value}Contract.View, View.OnClickListener {
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         Dagger${provider.pageName.value}Component //如找不到该类,请编译一下项目
@@ -31,8 +31,8 @@ class ${provider.pageName.value}Activity : BaseTitleActivity<${provider.pageName
                 .inject(this)
     }
     
-    override fun getLayoutId(): Int {
-       return R.layout.${provider.activityLayoutName.value}
+      override fun initViewBinding(): Activity${provider.pageName.value}Binding {
+        return Activity${provider.pageName.value}Binding.inflate(layoutInflater, mParentBinding.container, true)
     }
     
     override fun initTitle(savedInstanceState: Bundle?) {
@@ -61,32 +61,22 @@ class ${provider.pageName.value}Activity : BaseTitleActivity<${provider.pageName
 private fun armsActivityJava(provider: ArmsPluginTemplateProviderImpl) = """
 package ${provider.activityPackageName.value};
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.jess.arms.di.component.AppComponent;
+import ${provider.appPackageName.value}.R;
 import ${provider.appPackageName.value}.base.BaseTitleActivity;
+import ${provider.appPackageName.value}.databinding.Activity${provider.pageName.value}Binding;
 import ${provider.componentPackageName.value}.Dagger${provider.pageName.value}Component;
-import ${provider.moudlePackageName.value}.${provider.pageName.value}Module;
 import ${provider.contractPackageName.value}.${provider.pageName.value}Contract;
 import ${provider.presenterPackageName.value}.${provider.pageName.value}Presenter;
-import ${provider.appPackageName.value}.R;
-
-import android.os.Bundle;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 ${commonAnnotation(provider)}
-public class ${provider.pageName.value}Activity extends BaseTitleActivity<${provider.pageName.value}Presenter> implements ${provider.pageName.value}Contract.View {
-
-    @BindView(R.id.xx)
-    TextView x;
+public class ${provider.pageName.value}Activity extends BaseTitleActivity<Activity${provider.pageName.value}Binding, ${provider.pageName.value}Presenter> implements ${provider.pageName.value}Contract.View, View.OnClickListener {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -99,8 +89,8 @@ public class ${provider.pageName.value}Activity extends BaseTitleActivity<${prov
     }
     
     @Override
-    public int getLayoutId() {
-        return R.layout.${provider.activityLayoutName.value};
+    public Activity${provider.pageName.value}Binding initViewBinding() {
+        return Activity${provider.pageName.value}Binding.inflate(getLayoutInflater(), mParentBinding.container, true);
     }
 
     @Override
@@ -118,10 +108,11 @@ public class ${provider.pageName.value}Activity extends BaseTitleActivity<${prov
 
     }
 
-    @OnClick({R.id.xx})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()) {
-            case R.id.xx:
+            case R.id.x:
 
                 break;
         }
