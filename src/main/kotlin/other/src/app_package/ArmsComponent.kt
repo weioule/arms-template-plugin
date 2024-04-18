@@ -66,9 +66,11 @@ ${
 
 fun armsComponentJava(provider: ArmsPluginTemplateProviderImpl) = """
 package ${provider.componentPackageName.value};
+import dagger.BindsInstance;
 import dagger.Component;
 import com.jess.arms.di.component.AppComponent;
 import ${provider.moudlePackageName.value}.${provider.pageName.value}Module;
+import ${provider.contractPackageName.value}.${provider.pageName.value}Contract;
 
 ${
     if (provider.needActivity.value && provider.needFragment.value)
@@ -119,7 +121,7 @@ ${
     } else ""
 }
 
-    @Component.Builder
+@Component.Builder
     interface Builder {
         @BindsInstance
         ${provider.pageName.value}Component.Builder view(${provider.pageName.value}Contract.View view);

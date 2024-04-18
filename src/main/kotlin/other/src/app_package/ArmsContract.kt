@@ -12,14 +12,16 @@ ${
         provider.needActivity.value -> {
             "import android.app.Activity"
         }
+
         provider.needFragment.value -> {
             "import androidx.fragment.app.Fragment"
         }
+
         else -> ""
     }
 }
-import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
+import com.jess.arms.mvp.IView
 
 $armsAnnotation
 interface ${provider.pageName.value}Contract {
@@ -32,20 +34,19 @@ ${
     
     """
         }
+
         provider.needFragment.value -> {
             """
     
     """
         }
+
         else -> ""
     }
 }
     }
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
-    interface Model : IModel{
-        
-    }
-    
+    interface Model : IModel
 }    
 """
 
@@ -56,14 +57,16 @@ ${
         provider.needActivity.value -> {
             "import android.app.Activity;"
         }
+
         provider.needFragment.value -> {
             "import androidx.fragment.app.Fragment;"
         }
+
         else -> ""
     }
 }
-import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
+import com.jess.arms.mvp.IView;
 
 $armsAnnotation
 public interface ${provider.pageName.value}Contract {
@@ -73,14 +76,14 @@ ${
     when {
         provider.needActivity.value -> {
             """
-    
     """
         }
+
         provider.needFragment.value -> {
             """
-    
     """
         }
+
         else -> ""
     }
 }
