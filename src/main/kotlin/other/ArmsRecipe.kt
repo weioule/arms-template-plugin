@@ -26,6 +26,8 @@ fun RecipeExecutor.armsRecipe(provider: ArmsPluginTemplateProviderImpl, data: Mo
     if (provider.needActivity.value) {
         val activityFile = File(data.rootDir, "${fFmSlashedPackageName(provider.activityPackageName.value)}/${provider.pageName.value}Activity.$languageSuffix")
         save(armsActivity(isKt, provider), activityFile)
+        //旧的java版本模板
+//        save(armsActivityOld(isKt, provider), activityFile)
         open(activityFile)
     }
     if (provider.needFragment.value) {
